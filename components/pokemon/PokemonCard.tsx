@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useRouter } from 'next/router';
 import { Card, Grid, Row, Text } from '@nextui-org/react';
 import { Pokemon } from '@/interfaces';
 
@@ -7,6 +8,12 @@ interface Props {
 }
 
 export const PokemonCard: FC<Props> = ({ pokemon: { id, name, img } }) => {
+	const router = useRouter();
+
+	const onClick = () => {
+		router.push(`/pokemon/${id}`);
+	};
+
 	return (
 		<Grid
 			key={id}
@@ -19,6 +26,7 @@ export const PokemonCard: FC<Props> = ({ pokemon: { id, name, img } }) => {
 				isHoverable
 				isPressable
 				variant='bordered'
+				onClick={onClick}
 			>
 				<Card.Body
 					css={{
