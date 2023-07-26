@@ -1,9 +1,10 @@
 import { Layout } from '@/components/layouts';
+import { EmptyFavorites } from '@/components/ui';
 
 const FavoritesPage = () => {
 	return (
 		<Layout title='Favorites Pokemons | NextJs App'>
-			<h1>Favoritos</h1>
+			<EmptyFavorites />
 		</Layout>
 	);
 };
