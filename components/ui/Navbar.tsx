@@ -2,6 +2,8 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { Link, Spacer, Text, useTheme } from '@nextui-org/react';
 
+const origin = typeof window === 'undefined' ? '' : window.location.origin;
+
 export const Navbar = () => {
 	const { theme } = useTheme();
 	return (
@@ -23,15 +25,16 @@ export const Navbar = () => {
 			>
 				<Link>
 					<Image
-						src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'
-						alt='squirtle'
-						width={90}
-						height={90}
+						src={`${origin}/pokeball.svg`}
+						alt='pokeball'
+						width={30}
+						height={30}
 					/>
 
 					<Text
 						color='white'
 						h2
+						css={{ marginLeft: '15px' }}
 					>
 						P
 					</Text>
