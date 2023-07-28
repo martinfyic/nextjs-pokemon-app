@@ -5,6 +5,8 @@ import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts';
 import { PokemonTotalInfo } from '@/interfaces';
 import { localStorageFavorites } from '@/helpers';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
 	pokemon: PokemonTotalInfo;
@@ -23,9 +25,34 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 	const onToggleFavorite = () => {
 		localStorageFavorites.toggleFavorites(pokemon.id);
 		setIsInFavorites(!isInFavorites);
+
+		if (!isInFavorites) {
+			toast.success('Added!', {
+				position: 'top-right',
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'dark',
+			});
+		} else {
+			toast.error('Deleted!', {
+				position: 'top-right',
+				autoClose: 2000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'dark',
+			});
+		}
 	};
 	return (
 		<Layout title={`Pokemon ${pokemonNameCap} | NextJs App`}>
+			<ToastContainer />
 			<Grid.Container
 				css={{ marginTop: '5px' }}
 				gap={2}
@@ -135,8 +162,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const { id } = params as { id: string };
 	const { data } = await pokeApi.get<PokemonTotalInfo>(`/pokemon/${id}`);
 
+	const pokemon = {
+		id: data.id,
+		name: data.name,
+		sprites: data.sprites,
+	};
+
 	return {
-		props: { pokemon: data },
+		props: { pokemon },
 	};
 };
 
