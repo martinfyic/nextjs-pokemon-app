@@ -11,7 +11,7 @@ interface Props {
 const HomePage: NextPage<Props> = ({ pokemons }) => {
 	return (
 		<>
-			<Layout title='Pokemon list | NextJs App'>
+			<Layout title='Pokemons list | NextJs PokeApp'>
 				<PokemonList pokemons={pokemons} />
 			</Layout>
 		</>

@@ -50,7 +50,7 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 		}
 	};
 	return (
-		<Layout title={`Pokemon ${pokemonNameCap} | NextJs App`}>
+		<Layout title={`${pokemonNameCap} | NextJs PokeApp`}>
 			<ToastContainer />
 			<Grid.Container
 				css={{ marginTop: '5px' }}

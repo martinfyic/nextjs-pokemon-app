@@ -12,7 +12,7 @@ const FavoritesPage = () => {
 	}, []);
 
 	return (
-		<Layout title='Favorites Pokemons | NextJs App'>
+		<Layout title='Favorites Pokemons | NextJs PokeApp'>
 			{favritePokemons.length === 0 ? (
 				<EmptyFavorites />
 			) : (
