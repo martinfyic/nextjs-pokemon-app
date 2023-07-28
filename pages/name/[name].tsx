@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { Button, Card, Container, Grid, Image, Text } from '@nextui-org/react';
 import { pokeApi } from '@/api';
 import { Layout } from '@/components/layouts';
-import { PokemonTotalInfo } from '@/interfaces';
+import { PokemonListResponse, PokemonTotalInfo } from '@/interfaces';
 import { localStorageFavorites } from '@/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,7 @@ interface Props {
 	pokemon: PokemonTotalInfo;
 }
 
-const PokemonPage: NextPage<Props> = ({ pokemon }) => {
+const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 	const [isInFavorites, setIsInFavorites] = useState(false);
 
 	useEffect(() => {
@@ -142,16 +142,14 @@ const PokemonPage: NextPage<Props> = ({ pokemon }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-	const TOTAL_POKEMONS_PARAMS = 151;
-	const numOfPokemons = [];
-
-	for (let index = 1; index <= TOTAL_POKEMONS_PARAMS; index++) {
-		numOfPokemons.push(`${index}`);
-	}
+	const { data } = await pokeApi.get<PokemonListResponse>(
+		'https://pokeapi.co/api/v2/pokemon?limit=151'
+	);
+	const pokemonNames: string[] = data.results.map(poke => poke.name);
 
 	return {
-		paths: numOfPokemons.map(id => ({
-			params: { id },
+		paths: pokemonNames.map(name => ({
+			params: { name },
 		})),
 
 		fallback: false,
@@ -159,8 +157,8 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const { id } = params as { id: string };
-	const { data } = await pokeApi.get<PokemonTotalInfo>(`/pokemon/${id}`);
+	const { name } = params as { name: string };
+	const { data } = await pokeApi.get<PokemonTotalInfo>(`/pokemon/${name}`);
 
 	const pokemon = {
 		id: data.id,
@@ -173,4 +171,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	};
 };
 
-export default PokemonPage;
+export default PokemonByNamePage;
